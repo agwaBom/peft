@@ -298,6 +298,8 @@ class Linear(nn.Module, LoraLayer):
 
     def forward(self, x: torch.Tensor, *args: Any, **kwargs: Any) -> torch.Tensor:
         previous_dtype = x.dtype
+        # Convert to float32 for stable training with fp16 model
+        x = x.to(torch.float32)
 
         if self.disable_adapters:
             if self.merged:
